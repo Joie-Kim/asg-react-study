@@ -1,5 +1,13 @@
+import { Outlet } from 'react-router-dom';
+import { GlobalStyle } from './globalStyle.ts';
+
 function App() {
-  return <div>init app</div>;
+  return (
+    <>
+      <GlobalStyle />
+      <Outlet />
+    </>
+  );
 }
 
 export default App;
