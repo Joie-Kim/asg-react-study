@@ -2,11 +2,10 @@ import { Characters, fetchCharacters } from '@/api';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import DEFAULT_IMG from '@/assets/default_profile.png';
+import { handleImgError } from '@/util';
 
 const Container = styled.div`
   padding: 0px 20px;
-  max-width: 480px;
   margin: 0 auto;
 `;
 
@@ -17,40 +16,55 @@ const Header = styled.header`
   align-items: center;
 `;
 
+const Title = styled.h1`
+  font-size: 40px;
+  color: ${(props) => props.theme.accentColor};
+`;
+
 const Loader = styled.span`
   display: block;
   text-align: center;
 `;
 
-const ChararcterList = styled.ul``;
+const ChararcterList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+
+  @media screen and (max-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (max-width: 500px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
 
 const Character = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
-  border-radius: 15px;
-  margin-bottom: 10px;
+  margin: 10px;
+
   a {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 20px;
-    transition: color 0.2s ease-in;
+    border-radius: 15px;
   }
   &:hover {
     a {
+      background-color: white;
       color: ${(props) => props.theme.accentColor};
     }
   }
 `;
 
-const Title = styled.h1`
-  font-size: 48px;
-  color: ${(props) => props.theme.accentColor};
-`;
-
 const Img = styled.img`
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  resize: both;
+  margin-bottom: 15px;
 `;
 
 const Home = () => {
@@ -59,24 +73,20 @@ const Home = () => {
     queryFn: fetchCharacters,
   });
 
-  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = DEFAULT_IMG;
-  };
-
   return (
     <Container>
       <Header>
-        <Title>Characters</Title>
+        <Title>Welcome to Disney World!</Title>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <ChararcterList>
-          {data?.slice(0, 100).map((char) => (
+          {data?.map((char) => (
             <Character key={char.id}>
               <Link to={`character/${char.id}`} state={{ name: char.name }}>
                 <Img src={char.imageUrl ?? ''} onError={handleImgError} />
-                {char.name} &rarr;
+                {char.name}
               </Link>
             </Character>
           ))}

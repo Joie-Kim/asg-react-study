@@ -1,5 +1,3 @@
-import { checkImageUrl } from './util';
-
 const BASE_URL = `https://disney_api.nomadcoders.workers.dev`;
 
 /** 캐릭터 타입 */
@@ -22,16 +20,7 @@ export type Characters = Omit<ICharacter, 'films' | 'sourceUrl'>[];
 /** 전체 캐릭터 리스트 받아오는 함수 */
 export const fetchCharacters = async () => {
   const response = await fetch(`${BASE_URL}/characters`);
-  const json = await response.json();
-  // const result = json.slice(0, 100).map((v: ICharacter) => {
-  //   const newImageUrl = checkImageUrl(v.imageUrl);
-  //   return {
-  //     ...v,
-  //     imageUrl: newImageUrl,
-  //   };
-  // });
-  // return result;
-  return json;
+  return await response.json();
 };
 
 /** 특정 캐릭터 정보 받아오는 함수 */

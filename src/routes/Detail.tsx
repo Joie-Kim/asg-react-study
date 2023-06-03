@@ -2,19 +2,17 @@ import { ICharacter, fetchCharacterInfo } from '@/api';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import DEFAULT_IMG from '@/assets/default_profile.png';
+import { Link } from 'react-router-dom';
+import { handleImgError } from '@/util';
 
 const Container = styled.div`
-  padding: 0px 20px;
-  max-width: 480px;
-  margin: 0 auto;
-`;
-
-const Header = styled.header`
-  height: 15vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 5% 20px;
+  max-width: 480px;
 `;
 
 const Loader = styled.span`
@@ -22,35 +20,58 @@ const Loader = styled.span`
   text-align: center;
 `;
 
-const Title = styled.h1`
-  font-size: 48px;
+const Img = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 150px;
+  margin-bottom: 10px;
+`;
+
+const Name = styled.h2`
+  margin: 8px 0;
+  font-size: 32px;
   color: ${(props) => props.theme.accentColor};
 `;
 
-const Img = styled.img`
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
-`;
-
-const Overview = styled.div`
+const FilmList = styled.ul`
   display: flex;
-  justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px 20px;
-  border-radius: 10px;
-`;
-
-const OverviewItem = styled.div`
-  display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
+`;
+
+const FilmItem = styled.li`
+  width: fit-content;
+  margin: 4px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
 
   span:first-child {
     font-size: 10px;
     font-weight: 400;
     text-transform: uppercase;
     margin-bottom: 5px;
+  }
+`;
+
+const Footer = styled.footer`
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 50px;
+    border: 1px solid ${(props) => props.theme.accentColor};
+    border-radius: 25px;
+    background-color: ${(props) => props.theme.accentColor};
+    color: ${(props) => props.theme.textColor};
+    text-align: center;
   }
 `;
 
@@ -63,31 +84,30 @@ const Detail = () => {
     queryFn: () => fetchCharacterInfo(Number(id)),
   });
 
-  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = DEFAULT_IMG;
-  };
-
   return (
     <Container>
-      <Header>
-        <Title>
-          {state?.name ? state.name : isLoading ? 'Loading...' : data?.name}
-        </Title>
-      </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
           <Img src={data?.imageUrl ?? ''} onError={handleImgError} />
-          <Overview>
+          <Name>
+            {state?.name ? state.name : isLoading ? 'Loading...' : data?.name}
+          </Name>
+          <FilmList>
             {data?.films.map((v, i) => (
-              <OverviewItem key={i}>
+              <FilmItem key={i}>
                 <span>{v}</span>
-              </OverviewItem>
+              </FilmItem>
             ))}
-          </Overview>
+          </FilmList>
         </>
       )}
+      <Footer>
+        <Link to='/' preventScrollReset={true}>
+          Go to List
+        </Link>
+      </Footer>
     </Container>
   );
 };
