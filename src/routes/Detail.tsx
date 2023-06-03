@@ -1,6 +1,6 @@
 import { ICharacter, fetchCharacterInfo } from '@/api';
 import { useQuery } from '@tanstack/react-query';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { handleImgError } from '@/util';
@@ -77,7 +77,6 @@ const Footer = styled.footer`
 
 const Detail = () => {
   const { id } = useParams();
-  const { state } = useLocation();
 
   const { isLoading, data } = useQuery<ICharacter>({
     queryKey: ['character', id],
@@ -91,9 +90,7 @@ const Detail = () => {
       ) : (
         <>
           <Img src={data?.imageUrl ?? ''} onError={handleImgError} />
-          <Name>
-            {state?.name ? state.name : isLoading ? 'Loading...' : data?.name}
-          </Name>
+          <Name>{data?.name}</Name>
           <FilmList>
             {data?.films.map((v, i) => (
               <FilmItem key={i}>
