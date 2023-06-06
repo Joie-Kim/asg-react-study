@@ -2,11 +2,23 @@ import { ICountry } from '@/types/country';
 import ButtonBox from './ButtonBox';
 import { useSetRecoilState } from 'recoil';
 import { countryState } from '@/Recoil/country/atoms';
+import styled from 'styled-components';
+
+const Item = styled.li`
+  margin-bottom: 10px;
+  padding: 0 20px;
+  span {
+    font-size: 24px;
+    font-weight: bold;
+  }
+`;
 
 const CountryItem = ({ id, name, category }: ICountry) => {
   const setCountries = useSetRecoilState(countryState);
 
-  /** 카테고리 변경 함수 */
+  /** 카테고리 변경 함수
+   * @param newCategory 클릭한 버튼에 지정된 카테고리
+   */
   const onCategoryChange = (newCategory: ICountry['category']) => {
     setCountries((prev) =>
       prev.map((country) =>
@@ -21,14 +33,14 @@ const CountryItem = ({ id, name, category }: ICountry) => {
   };
 
   return (
-    <li>
+    <Item>
       <span>{name}</span>
       <ButtonBox
         category={category}
         onChange={onCategoryChange}
         onDelete={onCountryDelete}
       />
-    </li>
+    </Item>
   );
 };
 
