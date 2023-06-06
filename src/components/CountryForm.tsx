@@ -1,4 +1,4 @@
-import { countriesState } from '@/atoms';
+import { countryState } from '@/Recoil/country/atoms';
 import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,7 +8,7 @@ interface IForm {
 }
 
 const CountryForm = () => {
-  const [countries, setCountries] = useRecoilState(countriesState);
+  const [countries, setCountries] = useRecoilState(countryState);
   const {
     register,
     handleSubmit,

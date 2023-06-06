@@ -1,16 +1,27 @@
-import { countriesState } from '@/atoms';
+import { countrySelector } from '@/Recoil/country/selectors';
 import CountryForm from '@/components/CountryForm';
 import CountryItem from '@/components/CountryItem';
 import { useRecoilValue } from 'recoil';
 
 const Home = () => {
-  const countries = useRecoilValue(countriesState);
+  const [wishList, visitedList, preferList] = useRecoilValue(countrySelector);
+
   return (
     <div>
       <CountryForm />
       <hr />
-      <h1>가보고 싶은 나라들</h1>
-      {countries.map((country) => (
+      <h1>가고 싶은 나라들</h1>
+      {wishList.map((country) => (
+        <CountryItem key={country.id} {...country} />
+      ))}
+      <hr />
+      <h1>가본 나라들</h1>
+      {visitedList.map((country) => (
+        <CountryItem key={country.id} {...country} />
+      ))}
+      <hr />
+      <h1>좋아하는 나라들</h1>
+      {preferList.map((country) => (
         <CountryItem key={country.id} {...country} />
       ))}
     </div>
