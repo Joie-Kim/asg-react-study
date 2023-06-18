@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import MovieItem from './MovieItem';
 import { useState } from 'react';
 import Modal from './Modal';
+import { motion } from 'framer-motion';
 
 // #region style
-const Container = styled.ul`
+const Container = styled(motion.ul)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
@@ -12,6 +13,20 @@ const Container = styled.ul`
     grid-template-columns: repeat(2, 1fr);
   }
 `;
+// #endregion
+
+// #region motion
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
 // #endregion
 
 // #region types
@@ -27,7 +42,7 @@ const MovieList = ({ movies }: Props) => {
   };
 
   return (
-    <Container>
+    <Container variants={container} initial='hidden' animate='visible'>
       {movies.map((movie) => (
         <MovieItem
           key={movie.id}

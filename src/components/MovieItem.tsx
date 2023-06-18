@@ -11,7 +11,7 @@ const Container = styled(motion.li)`
   min-height: 300px;
 `;
 
-const Poster = styled.img`
+const Poster = styled(motion.img)`
   width: 200px;
   height: 85%;
   border-radius: 20px;
@@ -21,8 +21,17 @@ const Title = styled.h2`
   margin-top: 5%;
   height: 10%;
   text-align: center;
-  /* border: 1px solid #fff; */
 `;
+
+// #region motion
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
+// #endregion
 
 interface Props {
   movie: IMovie;
@@ -31,8 +40,11 @@ interface Props {
 
 const MovieItem = ({ movie, onClick }: Props) => {
   return (
-    <Container onClick={onClick} layoutId={movie.id.toString()}>
-      <Poster src={makeImagePath(movie.poster_path)} />
+    <Container onClick={onClick} layoutId={movie.id.toString()} variants={item}>
+      <Poster
+        src={makeImagePath(movie.poster_path)}
+        whileHover={{ scale: 1.1, y: -20 }}
+      />
       <Title>{movie.title}</Title>
     </Container>
   );
