@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useMatch } from 'react-router-dom';
 import styled from 'styled-components';
 
 // #region style
@@ -61,17 +60,13 @@ const MENU = [
 // #endregion
 
 const Header = () => {
-  const [selected, setSelected] = useState<number>(0);
-  const onClick = (key: number) => {
-    setSelected(key);
-  };
   return (
     <Container>
       <MenuList>
         {MENU.map((menu) => (
-          <MenuItem key={menu.key} onClick={() => onClick(menu.key)}>
+          <MenuItem key={menu.key}>
             <Link to={menu.url}>{menu.name}</Link>
-            {selected === menu.key && <SelectedDot layoutId='selected' />}
+            {useMatch(menu.url) && <SelectedDot layoutId='selected' />}
           </MenuItem>
         ))}
       </MenuList>

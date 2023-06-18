@@ -6,18 +6,22 @@ const Container = styled.li`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 10px;
   min-height: 300px;
-  border: 1px solid;
 `;
 
 const Poster = styled.img`
   width: 200px;
-  height: 90%;
+  height: 85%;
   border-radius: 20px;
-  /* background-color: tomato; */
 `;
 
-const Title = styled.h2``;
+const Title = styled.h2`
+  margin-top: 5%;
+  height: 10%;
+  text-align: center;
+  /* border: 1px solid #fff; */
+`;
 
 interface Props {
   movie: IMovie;
