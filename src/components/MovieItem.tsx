@@ -1,7 +1,8 @@
 import { makeImagePath } from '@/api';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-const Container = styled.li`
+const Container = styled(motion.li)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,11 +26,12 @@ const Title = styled.h2`
 
 interface Props {
   movie: IMovie;
+  onClick: () => void;
 }
 
-const MovieItem = ({ movie }: Props) => {
+const MovieItem = ({ movie, onClick }: Props) => {
   return (
-    <Container>
+    <Container onClick={onClick} layoutId={movie.id.toString()}>
       <Poster src={makeImagePath(movie.poster_path)} />
       <Title>{movie.title}</Title>
     </Container>
